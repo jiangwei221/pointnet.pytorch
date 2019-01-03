@@ -74,6 +74,8 @@ class PointNetfeat(nn.Module):
         mask = torch.ne(torch.max(x,1)[0], 0)
         mask = mask.unsqueeze(1).repeat(1, 1024, 1)
         mask.float()
+        import IPython
+        IPython.embed()
         mask[mask==0] = float('inf')
         mask[mask==1] = 0
         batchsize = x.size()[0]
