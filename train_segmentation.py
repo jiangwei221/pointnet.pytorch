@@ -16,7 +16,9 @@ from torch.autograd import Variable
 from datasets import PartDataset
 from pointnet import PointNetDenseCls
 import torch.nn.functional as F
-
+import json
+with open('global_config.json') as f:
+    global_config = json.load(f)
 
 
 parser = argparse.ArgumentParser()
@@ -25,7 +27,7 @@ parser.add_argument('--workers', type=int, help='number of data loading workers'
 parser.add_argument('--nepoch', type=int, default=25, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='seg',  help='output folder')
 parser.add_argument('--model', type=str, default = '',  help='model path')
-
+parser.add_argument('--dataset_path', type=str, default = global_config['dataset_path'],  help='dataset path')
 
 opt = parser.parse_args()
 print (opt)
@@ -35,11 +37,11 @@ print("Random Seed: ", opt.manualSeed)
 random.seed(opt.manualSeed)
 torch.manual_seed(opt.manualSeed)
 
-dataset = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = False, class_choice = ['Chair'])
+dataset = PartDataset(root = opt.dataset_path, classification = False, class_choice = ['Chair'])
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
-test_dataset = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = False, class_choice = ['Chair'], train = False)
+test_dataset = PartDataset(root = opt.dataset_path, classification = False, class_choice = ['Chair'], train = False)
 testdataloader = torch.utils.data.DataLoader(test_dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 

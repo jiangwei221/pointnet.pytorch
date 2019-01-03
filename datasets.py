@@ -90,13 +90,15 @@ class PartDataset(data.Dataset):
 
 
 if __name__ == '__main__':
+    with open('global_config.json') as f:
+        global_config = json.load(f)
     print('test')
-    d = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', class_choice = ['Chair'])
+    d = PartDataset(root = global_config['dataset_path'], class_choice = ['Chair'])
     print(len(d))
     ps, seg = d[0]
     print(ps.size(), ps.type(), seg.size(),seg.type())
 
-    d = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = True)
+    d = PartDataset(root = global_config['dataset_path'], classification = True)
     print(len(d))
     ps, cls = d[0]
     print(ps.size(), ps.type(), cls.size(),cls.type())
