@@ -71,8 +71,8 @@ class PointNetfeat(nn.Module):
         # import IPython
         # IPython.embed()
         # exit(1)
-        # mask = torch.ne(torch.max(x,1)[0], 0)
-        # mask = mask.unsqueeze(1).repeat(1, 1024, 1)
+        mask = torch.ne(torch.max(x,1)[0], 0)
+        mask = mask.unsqueeze(1).repeat(1, 1024, 1)
         batchsize = x.size()[0]
         n_pts = x.size()[2]
         trans = self.stn(x)
