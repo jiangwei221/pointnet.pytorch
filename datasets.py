@@ -73,7 +73,13 @@ class PartDataset(data.Dataset):
         seg = np.loadtxt(fn[2]).astype(np.int64)
         #print(point_set.shape, seg.shape)
 
-        choice = np.random.choice(len(seg), self.npoints, replace=True)
+        if len(seg) >= self.npoints:
+            choice = np.random.choice(len(seg), self.npoints, replace=True)
+        else:
+            print('total number of points is less than defined threshold')
+            import IPython
+            IPython.embed()
+            exit(1)
         #resample
         point_set = point_set[choice, :]
         seg = seg[choice]
