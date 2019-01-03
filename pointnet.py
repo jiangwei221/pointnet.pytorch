@@ -68,9 +68,11 @@ class PointNetfeat(nn.Module):
         self.bn3 = nn.BatchNorm1d(1024)
         self.global_feat = global_feat
     def forward(self, x):
-        import IPython
-        IPython.embed()
-        exit(1)
+        # import IPython
+        # IPython.embed()
+        # exit(1)
+        # mask = torch.ne(torch.max(x,1)[0], 0)
+        # mask = mask.unsqueeze(1).repeat(1, 1024, 1)
         batchsize = x.size()[0]
         n_pts = x.size()[2]
         trans = self.stn(x)
@@ -81,6 +83,9 @@ class PointNetfeat(nn.Module):
         pointfeat = x
         x = F.relu(self.bn2(self.conv2(x)))
         x = self.bn3(self.conv3(x))
+        import IPython
+        IPython.embed()
+        exit(1)
         x = torch.max(x, 2, keepdim=True)[0]
         x = x.view(-1, 1024)
         if self.global_feat:
