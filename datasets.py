@@ -87,8 +87,10 @@ class PartDataset(data.Dataset):
             fill_z = np.zeros([self.npoints-len(seg), 3]).astype(np.float32)
             point_set = point_set[choice, :]
             point_set = np.concatenate((point_set, fill_z), axis=0)
+
+            fill_z = np.zeros(self.npoints-len(seg)).astype(np.int64)
             seg = seg[choice]
-            # seg = np.concatenate((seg, fill_z-1), axis=0)
+            seg = np.concatenate((seg, fill_z-1), axis=0)
 
             print('total number of points is less than defined threshold')
             import IPython
