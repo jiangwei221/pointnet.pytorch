@@ -78,10 +78,6 @@ class PartDataset(data.Dataset):
             point_set = point_set[choice, :]
             seg = seg[choice]
         else:
-            # print('total number of points is less than defined threshold')
-            # import IPython
-            # IPython.embed()
-            # exit(1)
             choice = np.random.choice(len(seg), len(seg), replace=False)
             #resample
             fill_z = np.zeros([self.npoints-len(seg), 3]).astype(np.float32)
@@ -92,10 +88,10 @@ class PartDataset(data.Dataset):
             seg = seg[choice]
             seg = np.concatenate((seg, fill_z-1), axis=0)
 
-            print('total number of points is less than defined threshold')
-            import IPython
-            IPython.embed()
-            exit(1)
+            # print('total number of points is less than defined threshold')
+            # import IPython
+            # IPython.embed()
+            # exit(1)
 
         
         point_set = torch.from_numpy(point_set)
