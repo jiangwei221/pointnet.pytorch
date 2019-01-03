@@ -68,6 +68,9 @@ class PointNetfeat(nn.Module):
         self.bn3 = nn.BatchNorm1d(1024)
         self.global_feat = global_feat
     def forward(self, x):
+        import IPython
+        IPython.embed()
+        exit(1)
         batchsize = x.size()[0]
         n_pts = x.size()[2]
         trans = self.stn(x)
