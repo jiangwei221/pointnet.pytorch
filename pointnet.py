@@ -73,6 +73,9 @@ class PointNetfeat(nn.Module):
         # exit(1)
         mask = torch.ne(torch.max(x,1)[0], 0)
         mask = mask.unsqueeze(1).repeat(1, 1024, 1)
+        mask.float()
+        mask[mask==0] = float('inf')
+        mask[mask==1] = 0
         batchsize = x.size()[0]
         n_pts = x.size()[2]
         trans = self.stn(x)
@@ -83,9 +86,16 @@ class PointNetfeat(nn.Module):
         pointfeat = x
         x = F.relu(self.bn2(self.conv2(x)))
         x = self.bn3(self.conv3(x))
+        x = x - mask
         import IPython
         IPython.embed()
         exit(1)
+        # g_feature = []
+        # zipped = zip(x,mask)
+        # for item in zipped:
+        #     print(item[1].shape)
+        #     c_gf = torch.max(x[mask], 2, keepdim=True)[0]
+
         x = torch.max(x, 2, keepdim=True)[0]
         x = x.view(-1, 1024)
         if self.global_feat:
