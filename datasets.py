@@ -74,15 +74,24 @@ class PartDataset(data.Dataset):
         #print(point_set.shape, seg.shape)
 
         if len(seg) >= self.npoints:
-            choice = np.random.choice(len(seg), self.npoints, replace=True)
+            choice = np.random.choice(len(seg), self.npoints, replace=False)
+            point_set = point_set[choice, :]
+            seg = seg[choice]
         else:
+            # print('total number of points is less than defined threshold')
+            # import IPython
+            # IPython.embed()
+            # exit(1)
+            choice = np.random.choice(len(seg), len(seg), replace=False)
+            #resample
+            point_set = point_set[choice, :]
+            seg = seg[choice]
             print('total number of points is less than defined threshold')
             import IPython
             IPython.embed()
             exit(1)
-        #resample
-        point_set = point_set[choice, :]
-        seg = seg[choice]
+
+        
         point_set = torch.from_numpy(point_set)
         seg = torch.from_numpy(seg)
         cls = torch.from_numpy(np.array([cls]).astype(np.int64))
