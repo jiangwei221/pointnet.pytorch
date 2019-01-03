@@ -86,10 +86,11 @@ class PointNetfeat(nn.Module):
         pointfeat = x
         x = F.relu(self.bn2(self.conv2(x)))
         x = self.bn3(self.conv3(x))
+        # make sure max pool never pool from (0,0,0)
         x = x - mask
-        import IPython
-        IPython.embed()
-        exit(1)
+        # import IPython
+        # IPython.embed()
+        # exit(1)
         # g_feature = []
         # zipped = zip(x,mask)
         # for item in zipped:
