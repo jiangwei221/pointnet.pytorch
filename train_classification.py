@@ -26,6 +26,7 @@ parser.add_argument('--workers', type=int, help='number of data loading workers'
 parser.add_argument('--nepoch', type=int, default=25, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='cls',  help='output folder')
 parser.add_argument('--model', type=str, default = '',  help='model path')
+parser.add_argument('--dataset_path', type=str, default = '/data/dataset/shapenet/shapenetcore_partanno_segmentation_benchmark_v0',  help='dataset path')
 
 opt = parser.parse_args()
 print (opt)
@@ -37,11 +38,11 @@ print("Random Seed: ", opt.manualSeed)
 random.seed(opt.manualSeed)
 torch.manual_seed(opt.manualSeed)
 
-dataset = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = True, npoints = opt.num_points)
+dataset = PartDataset(root = opt.dataset_path, classification = True, npoints = opt.num_points)
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
-test_dataset = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = True, train = False, npoints = opt.num_points)
+test_dataset = PartDataset(root = opt.dataset_path, classification = True, train = False, npoints = opt.num_points)
 testdataloader = torch.utils.data.DataLoader(test_dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
